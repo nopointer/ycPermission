@@ -61,7 +61,7 @@ abstract class AbsPermsRequester {
             ycPerLog.e("权限请求的内容为空！！！");
             return;
         }
-        if (hasPermissions(fragment.getContext(), permissionInfo.getPermissionArr())) {
+        if (hasPermissions(fragment, permissionInfo.getPermissionArr())) {
             if (permissionCallback != null) {
                 permissionCallback.onGetAllPermission();
             }
@@ -124,6 +124,27 @@ abstract class AbsPermsRequester {
         }
         for (String perm : perms) {
             boolean hasPerm = (ContextCompat.checkSelfPermission(context, perm) == PackageManager.PERMISSION_GRANTED);
+            if (!hasPerm) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 判断是否有该项或者多项权限
+     *
+     * @param context
+     * @param perms
+     * @return
+     */
+    public static boolean hasPermissions(Fragment context, String... perms) {
+        // Always return true for SDK < M, let the system deal with the permissions
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return true;
+        }
+        for (String perm : perms) {
+            boolean hasPerm = (ContextCompat.checkSelfPermission(context.getContext(), perm) == PackageManager.PERMISSION_GRANTED);
             if (!hasPerm) {
                 return false;
             }
