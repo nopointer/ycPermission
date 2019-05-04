@@ -80,8 +80,8 @@ public class RequestPermissionInfo implements Serializable {
         return againPermissionTitle;
     }
 
-    public void setAginPermissionTitle(String aginPermissionTitle) {
-        this.againPermissionTitle = aginPermissionTitle;
+    public void setAgainPermissionTitle(String againPermissionTitle) {
+        this.againPermissionTitle = againPermissionTitle;
     }
 
 
@@ -90,16 +90,16 @@ public class RequestPermissionInfo implements Serializable {
         return againPermissionCancelText;
     }
 
-    public void setAginPermissionCancelText(String aginPermissionCancelText) {
-        this.againPermissionCancelText = aginPermissionCancelText;
+    public void setAgainPermissionCancelText(String againPermissionCancelText) {
+        this.againPermissionCancelText = againPermissionCancelText;
     }
 
-    public String getAginPermissionSureText() {
+    public String getAgainPermissionSureText() {
         return againPermissionSureText;
     }
 
-    public void setAginPermissionSureText(String aginPermissionSureText) {
-        this.againPermissionSureText = aginPermissionSureText;
+    public void setAgainPermissionSureText(String againPermissionSureText) {
+        this.againPermissionSureText = againPermissionSureText;
     }
 
     public String getPermissionMessage() {
@@ -110,12 +110,12 @@ public class RequestPermissionInfo implements Serializable {
         this.permissionMessage = permissionMessage;
     }
 
-    public String getAginPermissionMessage() {
+    public String getAgainPermissionMessage() {
         return againPermissionMessage;
     }
 
-    public void setAginPermissionMessage(String aginPermissionMessage) {
-        this.againPermissionMessage = aginPermissionMessage;
+    public void setAgainPermissionMessage(String againPermissionMessage) {
+        this.againPermissionMessage = againPermissionMessage;
     }
 
     @Override

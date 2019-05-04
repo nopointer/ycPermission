@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
 import java.util.Arrays;
@@ -64,7 +65,7 @@ public class YCPermissionRequester extends AbsPermsRequester {
     protected void cfgPermissionInfoDialogForNeverAsk(final Activity activity, final RequestPermissionInfo permissionInfo, List<String> permissionArr) {
         if (aginDialog == null) {
             aginDialog = new AlertDialog.Builder(activity)
-                    .setPositiveButton(permissionInfo.getAginPermissionSureText(), new DialogInterface.OnClickListener() {
+                    .setPositiveButton(permissionInfo.getAgainPermissionSureText(), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -77,12 +78,131 @@ public class YCPermissionRequester extends AbsPermsRequester {
         if (!TextUtils.isEmpty(permissionInfo.getAgainPermissionTitle())) {
             aginDialog.setTitle(permissionInfo.getAgainPermissionTitle());
         }
-        if (!TextUtils.isEmpty(permissionInfo.getAginPermissionMessage())) {
-            aginDialog.setMessage(permissionInfo.getAginPermissionMessage());
+        if (!TextUtils.isEmpty(permissionInfo.getAgainPermissionMessage())) {
+            aginDialog.setMessage(permissionInfo.getAgainPermissionMessage());
         }
         aginDialog.setCancelable(false);
         aginDialog.setCanceledOnTouchOutside(false);
         aginDialog.show();
     }
+
+
+    @Override
+    protected void cfgPermissionInfoDialog(final Fragment fragment, final RequestPermissionInfo permissionInfo) {
+        if (firstDialog == null) {
+            firstDialog = new AlertDialog.Builder(fragment.getActivity())
+                    .setPositiveButton(permissionInfo.getPermissionSureText(), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            executePermissionsRequest(fragment, permissionInfo.getPermissionArr(), permissionInfo.getRequestCode());
+                        }
+                    })
+                    .setNegativeButton(permissionInfo.getPermissionCancelText(), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            // act as if the permissions were denied
+                            if (fragment instanceof PermissionCallback) {
+                                ((PermissionCallback) fragment).onPermissionsDenied(permissionInfo.getRequestCode(), Arrays.asList(permissionInfo.getPermissionArr()));
+                            }
+                        }
+                    }).create();
+        }
+        if (!TextUtils.isEmpty(permissionInfo.getPermissionTitle())) {
+            firstDialog.setTitle(permissionInfo.getPermissionTitle());
+        }
+        if (!TextUtils.isEmpty(permissionInfo.getPermissionMessage())) {
+            firstDialog.setMessage(permissionInfo.getPermissionMessage());
+        }
+        firstDialog.setCancelable(false);
+        firstDialog.setCanceledOnTouchOutside(false);
+        firstDialog.show();
+    }
+
+    @Override
+    protected void cfgPermissionInfoDialogForNeverAsk(final Fragment fragment, final RequestPermissionInfo permissionInfo, List<String> permissionArr) {
+        if (aginDialog == null) {
+            aginDialog = new AlertDialog.Builder(fragment.getActivity())
+                    .setPositiveButton(permissionInfo.getAgainPermissionSureText(), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package", fragment.getActivity().getPackageName(), null);
+                            intent.setData(uri);
+                            startAppSettingsScreen(fragment, intent, permissionInfo.getRequestCode());
+                        }
+                    }).setNegativeButton(permissionInfo.getAgainPermissionCancelText(), null).create();
+        }
+        if (!TextUtils.isEmpty(permissionInfo.getAgainPermissionTitle())) {
+            aginDialog.setTitle(permissionInfo.getAgainPermissionTitle());
+        }
+        if (!TextUtils.isEmpty(permissionInfo.getAgainPermissionMessage())) {
+            aginDialog.setMessage(permissionInfo.getAgainPermissionMessage());
+        }
+        aginDialog.setCancelable(false);
+        aginDialog.setCanceledOnTouchOutside(false);
+        aginDialog.show();
+    }
+
+
+    @Override
+    protected void cfgPermissionInfoDialog(final android.app.Fragment fragment, final RequestPermissionInfo permissionInfo) {
+        if (firstDialog == null) {
+            firstDialog = new AlertDialog.Builder(fragment.getActivity())
+                    .setPositiveButton(permissionInfo.getPermissionSureText(), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            executePermissionsRequest(fragment, permissionInfo.getPermissionArr(), permissionInfo.getRequestCode());
+                        }
+                    })
+                    .setNegativeButton(permissionInfo.getPermissionCancelText(), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            // act as if the permissions were denied
+                            if (fragment instanceof PermissionCallback) {
+                                ((PermissionCallback) fragment).onPermissionsDenied(permissionInfo.getRequestCode(), Arrays.asList(permissionInfo.getPermissionArr()));
+                            }
+                        }
+                    }).create();
+        }
+        if (!TextUtils.isEmpty(permissionInfo.getPermissionTitle())) {
+            firstDialog.setTitle(permissionInfo.getPermissionTitle());
+        }
+        if (!TextUtils.isEmpty(permissionInfo.getPermissionMessage())) {
+            firstDialog.setMessage(permissionInfo.getPermissionMessage());
+        }
+        firstDialog.setCancelable(false);
+        firstDialog.setCanceledOnTouchOutside(false);
+        firstDialog.show();
+    }
+
+    @Override
+    protected void cfgPermissionInfoDialogForNeverAsk(final android.app.Fragment fragment, final RequestPermissionInfo permissionInfo, List<String> permissionArr) {
+        if (aginDialog == null) {
+            aginDialog = new AlertDialog.Builder(fragment.getActivity())
+                    .setPositiveButton(permissionInfo.getAgainPermissionSureText(), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package", fragment.getActivity().getPackageName(), null);
+                            intent.setData(uri);
+                            startAppSettingsScreen(fragment, intent, permissionInfo.getRequestCode());
+                        }
+                    }).setNegativeButton(permissionInfo.getAgainPermissionCancelText(), null).create();
+        }
+        if (!TextUtils.isEmpty(permissionInfo.getAgainPermissionTitle())) {
+            aginDialog.setTitle(permissionInfo.getAgainPermissionTitle());
+        }
+        if (!TextUtils.isEmpty(permissionInfo.getAgainPermissionMessage())) {
+            aginDialog.setMessage(permissionInfo.getAgainPermissionMessage());
+        }
+        aginDialog.setCancelable(false);
+        aginDialog.setCanceledOnTouchOutside(false);
+        aginDialog.show();
+    }
+
 
 }

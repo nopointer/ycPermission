@@ -37,6 +37,15 @@ abstract class AbsPermsRequester {
 
     protected abstract void cfgPermissionInfoDialogForNeverAsk(Activity activity, RequestPermissionInfo permissionInfo, List<String> permissionArr);
 
+    protected abstract void cfgPermissionInfoDialog(Fragment fragment, RequestPermissionInfo permissionInfo);
+
+    protected abstract void cfgPermissionInfoDialogForNeverAsk(Fragment fragment, RequestPermissionInfo permissionInfo, List<String> permissionArr);
+
+    protected abstract void cfgPermissionInfoDialog(android.app.Fragment fragment, RequestPermissionInfo permissionInfo);
+
+    protected abstract void cfgPermissionInfoDialogForNeverAsk(android.app.Fragment fragment, RequestPermissionInfo permissionInfo, List<String> permissionArr);
+
+
     //在activty里面请求权限
     public <T extends Activity> void requestPermission(T activity, PermissionCallback permissionCallback) {
         if (permissionInfo == null || permissionInfo.getPermissionArr() == null) {
@@ -54,7 +63,6 @@ abstract class AbsPermsRequester {
 
     //在fragment里面请求权限
     public <T extends Fragment> void requestPermission(T fragment, PermissionCallback permissionCallback) {
-//        requestPermission(fragment, permissionCallback);
         ycPerLog.e("permissionInfo==>" + permissionInfo.toString());
 
         if (permissionInfo == null || permissionInfo.getPermissionArr() == null) {
@@ -80,12 +88,14 @@ abstract class AbsPermsRequester {
             shouldShowRationale = shouldShowRationale || shouldShowRequestPermissionRationale(object, perm);
         }
         if (shouldShowRationale) {
-            Activity activity = getActivity(object);
-            if (null == activity) {
-                ycPerLog.e("debug====>这是啥？");
-                return;
+
+            if (object instanceof Activity) {
+                cfgPermissionInfoDialog((Activity) object, permissionInfo);
+            } else if (object instanceof Fragment) {
+                cfgPermissionInfoDialog((Fragment) object, permissionInfo);
+            } else if (object instanceof android.app.Fragment) {
+                cfgPermissionInfoDialog((android.app.Fragment) object, permissionInfo);
             }
-            cfgPermissionInfoDialog(activity, permissionInfo);
         } else {
             executePermissionsRequest(object, permissionInfo.getPermissionArr(), permissionInfo.getRequestCode());
         }
@@ -97,11 +107,15 @@ abstract class AbsPermsRequester {
         for (String perm : deniedPerms) {
             shouldShowRationale = shouldShowRequestPermissionRationale(object, perm);
             if (!shouldShowRationale) {
-                final Activity activity = getActivity(object);
-                if (null == activity) {
-                    return true;
+
+                if (object == null) return true;
+                if (object instanceof Activity) {
+                    cfgPermissionInfoDialogForNeverAsk((Activity) object, permissionInfo, deniedPerms);
+                } else if (object instanceof Fragment) {
+                    cfgPermissionInfoDialogForNeverAsk((Fragment) object, permissionInfo, deniedPerms);
+                } else if (object instanceof android.app.Fragment) {
+                    cfgPermissionInfoDialogForNeverAsk((android.app.Fragment) object, permissionInfo, deniedPerms);
                 }
-                cfgPermissionInfoDialogForNeverAsk(activity, permissionInfo, deniedPerms);
                 return true;
             }
         }
@@ -167,18 +181,18 @@ abstract class AbsPermsRequester {
     }
 
 
-    @TargetApi(11)
-    protected static Activity getActivity(Object object) {
-        if (object instanceof Activity) {
-            return ((Activity) object);
-        } else if (object instanceof Fragment) {
-            return ((Fragment) object).getActivity();
-        } else if (object instanceof android.app.Fragment) {
-            return ((android.app.Fragment) object).getActivity();
-        } else {
-            return null;
-        }
-    }
+//    @TargetApi(11)
+//    protected static Activity getActivity(Object object) {
+//        if (object instanceof Activity) {
+//            return ((Activity) object);
+//        } else if (object instanceof Fragment) {
+//            return ((Fragment) object).getActivity();
+//        } else if (object instanceof android.app.Fragment) {
+//            return ((android.app.Fragment) object).getActivity();
+//        } else {
+//            return null;
+//        }
+//    }
 
 
     @TargetApi(11)
