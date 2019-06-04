@@ -74,6 +74,7 @@ public class YCPermissionRequester extends AbsPermsRequester {
                     .setPositiveButton(permissionInfo.getAgainPermissionSureText(), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
                             Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                             Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
                             intent.setData(uri);
@@ -82,7 +83,16 @@ public class YCPermissionRequester extends AbsPermsRequester {
                                 permissionInfo.getPermissionDialogCallback().onSure(true);
                             }
                         }
-                    }).setNegativeButton(permissionInfo.getAgainPermissionCancelText(), null).create();
+                    }).setNegativeButton(permissionInfo.getAgainPermissionCancelText(), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            if (permissionInfo != null && permissionInfo.getPermissionDialogCallback() != null) {
+                                permissionInfo.getPermissionDialogCallback().onCancel(true);
+                            }
+
+                        }
+                    }).create();
         }
         if (!TextUtils.isEmpty(permissionInfo.getAgainPermissionTitle())) {
             aginDialog.setTitle(permissionInfo.getAgainPermissionTitle());
@@ -150,7 +160,15 @@ public class YCPermissionRequester extends AbsPermsRequester {
                                 permissionInfo.getPermissionDialogCallback().onSure(true);
                             }
                         }
-                    }).setNegativeButton(permissionInfo.getAgainPermissionCancelText(), null).create();
+                    }).setNegativeButton(permissionInfo.getAgainPermissionCancelText(), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            if (permissionInfo != null && permissionInfo.getPermissionDialogCallback() != null) {
+                                permissionInfo.getPermissionDialogCallback().onCancel(true);
+                            }
+                        }
+                    }).create();
         }
         if (!TextUtils.isEmpty(permissionInfo.getAgainPermissionTitle())) {
             aginDialog.setTitle(permissionInfo.getAgainPermissionTitle());
@@ -218,7 +236,15 @@ public class YCPermissionRequester extends AbsPermsRequester {
                                 permissionInfo.getPermissionDialogCallback().onSure(true);
                             }
                         }
-                    }).setNegativeButton(permissionInfo.getAgainPermissionCancelText(), null).create();
+                    }).setNegativeButton(permissionInfo.getAgainPermissionCancelText(), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            if (permissionInfo != null && permissionInfo.getPermissionDialogCallback() != null) {
+                                permissionInfo.getPermissionDialogCallback().onCancel(true);
+                            }
+                        }
+                    }).create();
         }
         if (!TextUtils.isEmpty(permissionInfo.getAgainPermissionTitle())) {
             aginDialog.setTitle(permissionInfo.getAgainPermissionTitle());
