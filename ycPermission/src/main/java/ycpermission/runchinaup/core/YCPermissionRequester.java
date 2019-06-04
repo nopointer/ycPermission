@@ -37,6 +37,9 @@ public class YCPermissionRequester extends AbsPermsRequester {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                             executePermissionsRequest(activity, permissionInfo.getPermissionArr(), permissionInfo.getRequestCode());
+                            if (permissionInfo != null && permissionInfo.getPermissionDialogCallback() != null) {
+                                permissionInfo.getPermissionDialogCallback().onSure(false);
+                            }
                         }
                     })
                     .setNegativeButton(permissionInfo.getPermissionCancelText(), new DialogInterface.OnClickListener() {
@@ -46,6 +49,9 @@ public class YCPermissionRequester extends AbsPermsRequester {
                             // act as if the permissions were denied
                             if (activity instanceof PermissionCallback) {
                                 ((PermissionCallback) activity).onPermissionsDenied(permissionInfo.getRequestCode(), Arrays.asList(permissionInfo.getPermissionArr()));
+                            }
+                            if (permissionInfo != null && permissionInfo.getPermissionDialogCallback() != null) {
+                                permissionInfo.getPermissionDialogCallback().onCancel(false);
                             }
                         }
                     }).create();
@@ -72,6 +78,9 @@ public class YCPermissionRequester extends AbsPermsRequester {
                             Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
                             intent.setData(uri);
                             startAppSettingsScreen(activity, intent, permissionInfo.getRequestCode());
+                            if (permissionInfo != null && permissionInfo.getPermissionDialogCallback() != null) {
+                                permissionInfo.getPermissionDialogCallback().onSure(true);
+                            }
                         }
                     }).setNegativeButton(permissionInfo.getAgainPermissionCancelText(), null).create();
         }
@@ -96,6 +105,9 @@ public class YCPermissionRequester extends AbsPermsRequester {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                             executePermissionsRequest(fragment, permissionInfo.getPermissionArr(), permissionInfo.getRequestCode());
+                            if (permissionInfo != null && permissionInfo.getPermissionDialogCallback() != null) {
+                                permissionInfo.getPermissionDialogCallback().onSure(false);
+                            }
                         }
                     })
                     .setNegativeButton(permissionInfo.getPermissionCancelText(), new DialogInterface.OnClickListener() {
@@ -105,6 +117,9 @@ public class YCPermissionRequester extends AbsPermsRequester {
                             // act as if the permissions were denied
                             if (fragment instanceof PermissionCallback) {
                                 ((PermissionCallback) fragment).onPermissionsDenied(permissionInfo.getRequestCode(), Arrays.asList(permissionInfo.getPermissionArr()));
+                            }
+                            if (permissionInfo != null && permissionInfo.getPermissionDialogCallback() != null) {
+                                permissionInfo.getPermissionDialogCallback().onCancel(false);
                             }
                         }
                     }).create();
@@ -131,6 +146,9 @@ public class YCPermissionRequester extends AbsPermsRequester {
                             Uri uri = Uri.fromParts("package", fragment.getActivity().getPackageName(), null);
                             intent.setData(uri);
                             startAppSettingsScreen(fragment, intent, permissionInfo.getRequestCode());
+                            if (permissionInfo != null && permissionInfo.getPermissionDialogCallback() != null) {
+                                permissionInfo.getPermissionDialogCallback().onSure(true);
+                            }
                         }
                     }).setNegativeButton(permissionInfo.getAgainPermissionCancelText(), null).create();
         }
@@ -155,6 +173,9 @@ public class YCPermissionRequester extends AbsPermsRequester {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                             executePermissionsRequest(fragment, permissionInfo.getPermissionArr(), permissionInfo.getRequestCode());
+                            if (permissionInfo != null && permissionInfo.getPermissionDialogCallback() != null) {
+                                permissionInfo.getPermissionDialogCallback().onSure(false);
+                            }
                         }
                     })
                     .setNegativeButton(permissionInfo.getPermissionCancelText(), new DialogInterface.OnClickListener() {
@@ -164,6 +185,9 @@ public class YCPermissionRequester extends AbsPermsRequester {
                             // act as if the permissions were denied
                             if (fragment instanceof PermissionCallback) {
                                 ((PermissionCallback) fragment).onPermissionsDenied(permissionInfo.getRequestCode(), Arrays.asList(permissionInfo.getPermissionArr()));
+                            }
+                            if (permissionInfo != null && permissionInfo.getPermissionDialogCallback() != null) {
+                                permissionInfo.getPermissionDialogCallback().onCancel(false);
                             }
                         }
                     }).create();
@@ -190,6 +214,9 @@ public class YCPermissionRequester extends AbsPermsRequester {
                             Uri uri = Uri.fromParts("package", fragment.getActivity().getPackageName(), null);
                             intent.setData(uri);
                             startAppSettingsScreen(fragment, intent, permissionInfo.getRequestCode());
+                            if (permissionInfo != null && permissionInfo.getPermissionDialogCallback() != null) {
+                                permissionInfo.getPermissionDialogCallback().onSure(true);
+                            }
                         }
                     }).setNegativeButton(permissionInfo.getAgainPermissionCancelText(), null).create();
         }

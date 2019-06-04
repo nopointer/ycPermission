@@ -3,6 +3,8 @@ package ycpermission.runchinaup.core;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import ycpermission.runchinaup.core.callback.PermissionDialogCallback;
+
 /**
  * Created by nopointer on 2018/8/21.
  * 权限的信息
@@ -33,7 +35,6 @@ public class RequestPermissionInfo implements Serializable {
     //确定按钮的文字
     private String againPermissionSureText = "";
 
-
     public String getPermissionTitle() {
         return permissionTitle;
     }
@@ -42,7 +43,15 @@ public class RequestPermissionInfo implements Serializable {
         this.permissionTitle = permissionTitle;
     }
 
+    private PermissionDialogCallback permissionDialogCallback;
 
+    public void setPermissionDialogCallback(PermissionDialogCallback permissionDialogCallback) {
+        this.permissionDialogCallback = permissionDialogCallback;
+    }
+
+    public PermissionDialogCallback getPermissionDialogCallback() {
+        return permissionDialogCallback;
+    }
 
     public String[] getPermissionArr() {
         return permissionArr;
